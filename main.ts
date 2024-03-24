@@ -247,8 +247,7 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 					const sessionId = Array.from(array, byte => ('0' + (byte & 0xFF).toString(16)).slice(-2)).join('');
 
 					const appName = "obsidian-plugin-for-misskey"
-					// FIXME: アイコンのURLをObsidian用に変更してください
-					const iconURL = "https://raw.githubusercontent.com/logseq/marketplace/master/packages/logseq-plugin-for-misskey/icon_ki.png"
+					const iconURL = "https://raw.githubusercontent.com/minimarimo3/Obsidian-plugin-for-Misskey/master/documents/icon_ki.png"
 					const authURL = `https://${domain}/miauth/${sessionId}?name=${appName}&icon=${iconURL}&permission=write:notes,write:drive`
 					const checkURL = `https://${domain}/api/miauth/${sessionId}/check`
 
