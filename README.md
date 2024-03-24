@@ -1,5 +1,7 @@
 # Obsidian Plugin for Misskey
 
+[日本語はこちら](./documents/ja-JP/README.md)
+
 ## Features
 
 Adds commands to embed a Misskey note in quote format `Embed a Misskey note` and to post the current line to Misskey `Post the current line to Misskey`.
