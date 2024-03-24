@@ -1,0 +1,74 @@
+{
+    "welcome": "私たちのアプリケーションへようこそ！",
+    "selectAccount": {
+        "name": "アカウントを選択",
+        "desc": "投稿するアカウントを選択してください。"
+    },
+    "account": "アカウント",
+    "memo": {
+        "name": "メモ",
+        "desc": "プログラムからは使いません。アカウントがなんのアカウントかをメモしておくための項目です。",
+        "placeholder": "例) 普段使ってるアカウント"
+    },
+    "domain": {
+        "name": "ドメイン",
+        "desc": "Misskeyのドメインを入力してください。`https://misskey.io/@username`の`misskey.io`の部分です。",
+        "placeholder": "例) misskey.io"
+    },
+    "prevText": {
+        "name": "投稿の前部分",
+        "desc": "投稿の前部分に追加する文章を入力してください。改行は \\n で表してください。",
+        "placeholder": "例) #一行記録\\n"
+    },
+    "postText": {
+        "name": "投稿の後部分",
+        "desc": "投稿の後部分に追加する文章を入力してください。改行は \\n で表してください。",
+        "placeholder": "例) \\n以上Obsidianから投稿しました。"
+    },
+    "isFileNameHidden": {
+        "name": "ファイル名を秘密にする",
+        "desc": "オンにするとMisskeyで表示されるファイル名が投稿時の時間になるため、Vaultのファイル名を隠せます。Vaultのファイル名には影響しません。"
+    },
+    "visibility": {
+        "name": "公開範囲",
+        "desc": "投稿の公開範囲を選択してください。ダイレクトはサポートされていません。",
+        "valueError": "公開範囲に不正な値が入力されました。公開範囲はpublic, home, followersのいずれかにしてください。(ダイレクトはサポートしていません)"
+    },
+    "uploadAllowedList": {
+        "name": "アップロードを許可するファイルのリスト",
+        "desc": "アップロードを許可するファイルのリストをカンマ(,)で区切って入力してください。",
+        "placeholder": "例) png, jpg, jpeg"
+    },
+    "embedFormat": {
+        "name": "埋め込み形式",
+        "desc": "投稿の埋め込みにHTMLを使うのが嫌な方はMarkdown形式を選択することができます。Markdown形式は動画などのプレビューが効きません。",
+        "valueError": "埋め込み形式に不正な値が入力されました。適切な埋め込み形式を設定してください。"
+    },
+    "tokenSetting": {
+        "name": "アクセストークンを(再)生成する",
+        "desc": "初回起動時、もしくはAPIキーを誤って削除してしまった場合に使用します。設定が完了している場合は押さないでください。",
+        "buttonText": "アクセストークンを生成する",
+        "domainNotSet": "ドメインが設定されていません。設定画面から設定してください。",
+        "timeOut": "認証がタイムアウトしました。再度アクセストークンの生成を行ってください。",
+        "tokenSettingsComplete": "アクセストークンの設定が完了しました。"
+    },
+    "fileNotFound": "ファイルが見つかりませんでした: ",
+    "thisFileTypeIsNotAllowed": "このファイルのアップロードは許可されていません(設定から変更可能): ",
+    "uploadingImage": "画像をアップロード中...",
+    "imageCannotBeUploaded": "画像をアップロードできませんでした。",
+    "noteCannotBeSend": "ノートを送信できませんでした。",
+    "urlIsNotCorrect": "URLが正しくありません: ",
+    "noteCannotBeQuoted": "ノートを引用できませんでした。",
+    "openOriginalNote": "@{{username}}さんの元ノートを開く",
+    "emojiCannotBeFetched": "絵文字を取得できませんでした: ",
+    "selectedAccountNotFoundError": "選択されたアカウントが存在しません。特別な操作をしてないのにこのエラーが出る場合は作者に連絡していただけると助かります。",
+    "domainNotSetError": "ドメインが設定されていません。設定画面から設定してください。",
+    "accountTokenNotSetError": "アクセストークンが設定されていません。設定画面から設定してください。",
+    "embedFormatValueError": "埋め込み形式に不正な値が入力されました。適切な埋め込み形式を設定してください。",
+    "visibilityValueError": "公開範囲に不正な値が入力されました。公開範囲はpublic, home, followersのいずれかにしてください。(ダイレクトはサポートしていません)",
+    "postToMisskey": "Misskeyへ現在の行を投稿する",
+    "postingToMisskey": "Misskeyへ投稿中...",
+    "quoteFromMisskey": "Misskeyのノートを埋め込む",
+    "collectingNotes": "ノートを取得中...",
+    "noteQuoted": "ノートを引用しました。"
+}

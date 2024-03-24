@@ -1,0 +1,73 @@
+{
+    "welcome": "Welcome to our application!",
+    "selectAccount": {
+        "name": "Select Account",
+        "desc": "Select the account you want to use."
+    },
+    "account": "Account",
+    "memo": {
+        "name": "Memo",
+        "desc": "This is not used by the program. It is an item for memoizing what kind of account it is.",
+        "placeholder": "e.g. Account I usually use"
+    },
+    "domain": {
+        "name": "Domain",
+        "desc": "Please enter your Misskey domain. This is the part of `https://misskey.io/@username` that is `misskey.io`.",
+        "placeholder": "e.g. misskey.io"
+    },
+    "prevText": {
+        "name": "Text to add before posting",
+        "desc": "Enter the text to add before posting. Use \\n to represent a line break.",
+        "placeholder": "e.g. Posting from Obsidian\\n"
+    },
+    "postText": {
+        "name": "Text to add after posting",
+        "desc": "Enter the text to add after posting. Use \\n to represent a line break.",
+        "placeholder": "e.g. \\nPosted from Obsidian."
+    },
+    "isFileNameHidden": {
+        "name": "Hide file name",
+        "desc": "When turned on, the file name displayed in Misskey will be the time of posting, so you can hide the Vault file name. It does not affect the Vault file name."
+    },
+    "visibility": {
+        "name": "Visibility",
+        "desc": "Select the visibility of the post. Direct is not supported.",
+        "valueError": "The value of the visibility is invalid. The visibility should be one of public, home, or followers. (Direct is not supported)"
+    },
+    "uploadAllowedList": {
+        "name": "List of files allowed to be uploaded",
+        "desc": "Enter a list of files allowed to be uploaded separated by commas.",
+        "placeholder": "e.g. png, jpg, jpeg"
+    },
+    "embedFormat": {
+        "name": "Embed format",
+        "desc": "If you don't like using HTML for embedding, you can choose Markdown format. The Markdown format does not support previews of videos and other media.",
+        "valueError": "The embed format has an invalid value. Please set the appropriate embed format."
+    },
+    "tokenSetting": {
+        "name": "Generate (or regenerate) access token",
+        "desc": "Use this when you first start up or accidentally delete your API key. Do not press this button if the setting is complete.",
+        "buttonText": "Generate access token",
+        "domainNotSet": "The domain is not set. Please set it from the settings screen.",
+        "timeOut": "Authentication timed out. Please generate the access token again.",
+        "tokenSettingsComplete": "Access token settings are complete."
+    },
+    "fileNotFound": "File not found: ",
+    "thisFileTypeIsNotAllowed": "This file is not allowed to be uploaded (changeable from settings): ",
+    "uploadingImage": "Uploading image...",
+    "imageCannotBeUploaded": "The image could not be uploaded.",
+    "noteCannotBeSend": "The note could not be sent.",
+    "urlIsNotCorrect": "The URL is not correct: ",
+    "noteCannotBeQuoted": "The note could not be quoted.",
+    "openOriginalNote": "Open the original note by @{{username}}",
+    "emojiCannotBeFetched": "The emoji could not be fetched: ",
+    "selectedAccountNotFoundError": "The selected account does not exist. If you get this error without any special operation, please contact the author.",
+    "domainNotSetError": "The domain is not set. Please set it from the settings screen.",
+    "accountTokenNotSetError": "The access token is not set. Please set it from the settings screen.",
+    "embedFormatValueError": "The embed format has an invalid value. Please set the appropriate embed format.",
+    "visibilityValueError": "The visibility has an invalid value. The visibility should be one of public, home, or followers. (Direct is not supported)",
+    "postingToMisskey": "Posting to Misskey...",
+    "quoteFromMisskey": "Quote from Misskey",
+    "collectingNotes": "Collecting notes...",
+    "noteQuoted": "Note quoted."
+}

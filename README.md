@@ -1,96 +1,51 @@
-# Obsidian Sample Plugin
+# Obsidian Plugin for Misskey
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+## Features
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
+Adds commands to embed a Misskey note in quote format `Embed a Misskey note` and to post the current line to Misskey `Post the current line to Misskey`.
+    ※ A Misskey account is required to use these features.
 
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
+The posting command supports options such as tagging, limiting files to upload, and anonymizing file names during upload. It can be used with both Japanese and machine-translated English.
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+## Initial Setup
 
-## First time developing plugins?
+1. Open settings and select "Misskey Connector" from Community Plugins.
+2. Enter your account's domain in "Domain". (For example, enter misskey.io for <https://misskey.io/@minimarimo3>.)
+![Initial Setup Screen](./documents/en-US/initial_setup.png)
+3. Press the "Generate Access Token" button at the bottom. A browser will open with a screen like the one shown in the image, so please press "Allow" promptly.
+![Authentication by MiAuth](./documents/en-US/MiAuth.png)
+4. Once you press "Allow", the initial setup is complete.
 
-Quick starting guide for new plugin devs:
+## How to Use
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+### `Embed a Misskey Note`
 
-## Releasing new releases
+Paste the URL of a Misskey note into Obsidian, and execute the `Embed a Misskey note` command on the line containing the URL.
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+![Embed a Misskey note](./documents/en-US/Embed%20a%20Misskey%20note.gif)
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+The following settings are available:
 
-## Adding your plugin to the community plugin list
+- Change of embedding format
+  This plugin uses HTML to embed images and videos. This can be switched to Markdown format in the settings.
 
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+### `Post the Current Line to Misskey`
 
-## How to use
+Execute the `Post the current line to Misskey` command on the line where you have text you wish to post to Misskey. If there are media files like images or videos on the same line, they will also be attached and posted.
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+![Post the current line to Misskey](./documents/en-US/Post%20the%20current%20line%20to%20Misskey.gif)
 
-## Manually installing the plugin
+The following settings are available:
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+- Insertion of text before and after the post content
+  You can insert any text before and after the post content. This can be used for tagging, for example.
+- Anonymizing file names
+  Normally, when posting files, the local file names are used as is on Misskey. Turning this option on will keep the local file names intact, but change the file names displayed on Misskey to the time of posting.
+- Adjusting the visibility range
+  You can choose the visibility range from public, home, followers. Direct is not supported.
+- Setting allowable file extensions for upload
+  You can specify that only files with certain extensions can be uploaded.
 
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
+## Contact
 
-## Funding URL
-
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
-```
-
-If you have multiple URLs, you can also do:
-
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
-
-## API Documentation
-
-See https://github.com/obsidianmd/obsidian-api
+For feature requests or bug reports, please contact us through GitHub, [@minimarimo3@misskey.io](https://misskey.io/@minimarimo3), or the [Google Form](https://forms.gle/K4EecLTgpERZRrbq5).
