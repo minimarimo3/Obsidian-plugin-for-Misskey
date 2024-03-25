@@ -225,52 +225,56 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 					)
 				);
 
-			const tokenSetting = new Setting(containerEl)
+			new Setting(containerEl)
 				.setName(i18n.t("tokenSetting.name"))
 				.setDesc(i18n.t("tokenSetting.desc"))
+				.addButton(button => button
+					.setButtonText(i18n.t("tokenSetting.buttonText"))
+					.onClick(async () => {
+						// MiAuthを使用してアクセストークンを取得します
+						const domain = selectedAccountSetting.domain;
 
-			// 連携が終わったらDescの文面を更新する
-			tokenSetting.addButton(button => button
-				.setButtonText(i18n.t("tokenSetting.buttonText"))
-				.onClick(async () => {
-					// MiAuthを使用してアクセストークンを取得します
-					const domain = selectedAccountSetting.domain;
-
-					if (domain === "") {
-						new Notice(i18n.t("tokenSetting.domainNotSet"))
-						return;
-					}
-
-					// MiAuthのセッションIDを生成
-					const array = new Uint8Array(32);
-					window.crypto.getRandomValues(array);
-					const sessionId = Array.from(array, byte => ('0' + (byte & 0xFF).toString(16)).slice(-2)).join('');
-
-					const appName = "obsidian-plugin-for-misskey"
-					const iconURL = "https://raw.githubusercontent.com/minimarimo3/Obsidian-plugin-for-Misskey/master/documents/icon_ki.png"
-					const authURL = `https://${domain}/miauth/${sessionId}?name=${appName}&icon=${iconURL}&permission=write:notes,write:drive`
-					const checkURL = `https://${domain}/api/miauth/${sessionId}/check`
-
-					window.open(`${authURL}`)
-					let intervalCount = 0;
-					const maxIntervalCount = 60 * 2 / 5;
-					const intervalId = setInterval(async () => {
-						if (intervalCount >= maxIntervalCount) {
-							clearInterval(intervalId);
-							new Notice(i18n.t("tokenSetting.timeOut"))
+						if (domain === "") {
+							new Notice(i18n.t("tokenSetting.domainNotSet"))
 							return;
 						}
-						const data =  await (await fetch(checkURL, {method: "POST"})).json()
-						if (data.ok) {
-							new Notice(i18n.t("tokenSetting.tokenSettingsComplete"))
-							clearInterval(intervalId);
-							selectedAccountSetting.accountToken = data.token;
-							await plugin.saveSettings();
-							tokenSetting.setDesc(i18n.t("tokenSetting.desc"))
-						}
-						intervalCount++;
-					}, 5000)
-				}));
+
+						// MiAuthのセッションIDを生成
+						const array = new Uint8Array(32);
+						window.crypto.getRandomValues(array);
+						const sessionId = Array.from(array, byte => ('0' + (byte & 0xFF).toString(16)).slice(-2)).join('');
+
+						const appName = "obsidian-plugin-for-misskey"
+						const iconURL = "https://raw.githubusercontent.com/minimarimo3/Obsidian-plugin-for-Misskey/master/documents/icon_ki.png"
+						const authURL = `https://${domain}/miauth/${sessionId}?name=${appName}&icon=${iconURL}&permission=write:notes,write:drive`
+						const checkURL = `https://${domain}/api/miauth/${sessionId}/check`
+
+						window.open(`${authURL}`)
+						let intervalCount = 0;
+						const maxIntervalCount = 60 * 2 / 5;
+						const intervalId = setInterval(async () => {
+							if (intervalCount >= maxIntervalCount) {
+								clearInterval(intervalId);
+								new Notice(i18n.t("tokenSetting.timeOut"))
+								return;
+							}
+							// FIXME: テスト
+							const data = await requestUrl({
+								"url": checkURL,
+								"method": "POST"
+							}).then((response) => response.json).catch((error) => {
+								new Notice(error);
+								clearInterval(intervalId);
+							})
+							if (data.ok) {
+								new Notice(i18n.t("tokenSetting.tokenSettingsComplete"))
+								clearInterval(intervalId);
+								selectedAccountSetting.accountToken = data.token;
+								await plugin.saveSettings();
+							}
+							intervalCount++;
+						}, 5000)
+					}));
 		}
 	}
 }
@@ -470,7 +474,6 @@ export default class MisskeyPlugin extends Plugin {
 			};
 
 			const response = await requestUrl(urlParams);
-			console.log(response);
 			// Misskeyのドメインを網羅することはできないので200が帰ってきたらMisskeyのノートとみなす
 			if (response.status !== 200) {
 				new Notice(i18n.t("noteCannotBeQuoted") + url);
@@ -517,13 +520,11 @@ export default class MisskeyPlugin extends Plugin {
 			while ((match = pattern.exec(note)) !== null) {
 				const emojiName = match[1];
 				const url = `https://${misskeyDomain}/api/emoji?name=${emojiName}`;
-				console.log(url);
 				const response = await requestUrl({
 					"url": url,
 					"method": "GET"
 				}).catch((error) => {
 					new Notice(i18n.t("emojiCannotBeFetched") + emojiName);
-					console.log(error);
 					return;
 				});
 				if (response?.status != 200){
