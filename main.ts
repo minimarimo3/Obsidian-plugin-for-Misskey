@@ -258,7 +258,6 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 								new Notice(i18n.t("tokenSetting.timeOut"))
 								return;
 							}
-							// FIXME: テスト
 							const data = await requestUrl({
 								"url": checkURL,
 								"method": "POST"
