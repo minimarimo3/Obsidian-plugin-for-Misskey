@@ -258,13 +258,9 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 								new Notice(i18n.t("tokenSetting.timeOut"))
 								return;
 							}
-							const data = await requestUrl({
-								"url": checkURL,
-								"method": "POST"
-							}).then((response) => response.json).catch((error) => {
-								new Notice(error);
-								clearInterval(intervalId);
-							})
+							// NOTE: requestUrlを使った際、macOSでは正常に動いたもののAndroidでは
+							//  415(Unsupported Media Type)が返ったのでfetchを使ってる。
+							const data =  await (await fetch(checkURL, {method: "POST"})).json()
 							if (data.ok) {
 								new Notice(i18n.t("tokenSetting.tokenSettingsComplete"))
 								clearInterval(intervalId);
