@@ -1,4 +1,4 @@
-# Obsidian Plugin for Misskey
+# Obsidian plugin for Misskey
 
 [日本語はこちら](./documents/ja-JP/README.md)
 
@@ -48,8 +48,7 @@ The following settings are available:
 - Adjusting the visibility range
   - You can choose the visibility range from public, home, followers. Direct is not supported.
 - Setting allowable file extensions for upload
-
-You can specify that only files with certain extensions can be uploaded.
+  - You can specify that only files with certain extensions can be uploaded.
 
 ## License
 
