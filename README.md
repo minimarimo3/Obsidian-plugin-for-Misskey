@@ -16,6 +16,8 @@ The posting command supports options such as tagging, limiting files to upload, 
 ![Initial Setup Screen](./documents/en-US/initial_setup.png)
 3. Press the "Generate Access Token" button at the bottom. A browser will open with a screen like the one shown in the image, so please press "Allow" promptly.
 ![Authentication by MiAuth](./documents/en-US/MiAuth.png)
+Q: What is this? And why is it necessary?
+A: This is [MiAuth, an authentication method provided by Misskey](https://misskey-hub.net/ja/docs/for-developers/api/token/miauth/). In this case, it is requesting permission for "creating and deleting notes" and "operating the drive". Operating the drive is necessary for uploading media.
 4. Once you press "Allow", the initial setup is complete.
 
 ## How to Use
