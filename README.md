@@ -51,6 +51,12 @@ The following settings are available:
 
 You can specify that only files with certain extensions can be uploaded.
 
+## License
+
+This project uses [i18next](https://www.i18next.com), which is available under the MIT License. For more details, see the i18next license information at [their GitHub repository](https://github.com/i18next/i18next).
+
+This project is licensed under the MIT License - see the [LICENSE.md](./LICENSE) file for details.
+
 ## Contact
 
 For feature requests or bug reports, please contact us through GitHub, [@minimarimo3@misskey.io](https://misskey.io/@minimarimo3), or the [Google Form](https://forms.gle/K4EecLTgpERZRrbq5).

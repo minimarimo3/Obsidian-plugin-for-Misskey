@@ -47,6 +47,11 @@ Misskeyに投稿したい文章がある行で`Post the current line to Misskey`
 - アップロードを許可するファイル拡張子の設定
   - 特定の拡張子のファイルのみアップロードといったことが可能になります。
 
+## ライセンス
+
+このプロジェクトはMITライセンスで公開されている[i18next](https://www.i18next.com)を使用しています。より詳細な情報については [i18nextのGitHubリポジトリ](https://github.com/i18next/i18next)を参照してください。
+また、このプロジェクトはMITライセンスで公開しています。詳しくは[LICENSE.md](../../LICENSE)ファイルを参照してください。
+
 ## 連絡先
 
 追加して欲しい機能やバグなどはGitHubか[@minimarimo3@misskey.io](https://misskey.io/@minimarimo3)か[Googleフォーム](https://forms.gle/K4EecLTgpERZRrbq5)までお願いします。
