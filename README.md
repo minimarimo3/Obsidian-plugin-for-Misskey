@@ -31,7 +31,7 @@ Paste the URL of a Misskey note into Obsidian, and execute the `Embed a Misskey 
 The following settings are available:
 
 - Change of embedding format
-  This plugin uses HTML to embed images and videos. This can be switched to Markdown format in the settings.
+This plugin uses HTML to embed images and videos. This can be switched to Markdown format in the settings.
 
 ### `Post the Current Line to Misskey`
 
@@ -42,13 +42,13 @@ Execute the `Post the current line to Misskey` command on the line where you hav
 The following settings are available:
 
 - Insertion of text before and after the post content
-  You can insert any text before and after the post content. This can be used for tagging, for example.
+You can insert any text before and after the post content. This can be used for tagging, for example.
 - Anonymizing file names
-  Normally, when posting files, the local file names are used as is on Misskey. Turning this option on will keep the local file names intact, but change the file names displayed on Misskey to the time of posting.
+Normally, when posting files, the local file names are used as is on Misskey. Turning this option on will keep the local file names intact, but change the file names displayed on Misskey to the time of posting.
 - Adjusting the visibility range
-  You can choose the visibility range from public, home, followers. Direct is not supported.
+You can choose the visibility range from public, home, followers. Direct is not supported.
 - Setting allowable file extensions for upload
-  You can specify that only files with certain extensions can be uploaded.
+You can specify that only files with certain extensions can be uploaded.
 
 ## Contact
 
