@@ -1,6 +1,6 @@
 # Obsidian plugin for Misskey
 
-[日本語はこちら](./documents/ja-JP/README.md)
+[日本語はこちら](https://github.com/minimarimo3/Obsidian-plugin-for-Misskey/blob/master/documents/ja-JP/README.md)
 
 ## Features
 
