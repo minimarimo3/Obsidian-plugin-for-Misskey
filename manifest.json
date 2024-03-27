@@ -3,7 +3,7 @@
 	"name": "Misskey Connector",
 	"version": "1.0.3",
 	"minAppVersion": "0.15.0",
-	"description": "You will be able to post notes from Misskey and embed Misskey notes.",
+	"description": "Enables posting and embedding Misskey notes.",
 	"author": "minimarimo3",
 	"authorUrl": "https://minimarimo3.jp",
 	"isDesktopOnly": false
