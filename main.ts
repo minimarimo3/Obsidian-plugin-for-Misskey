@@ -7,11 +7,11 @@ import jaTranslation from './locales/ja.json';
 
 
 interface MisskeyPluginSettings {
-	selectedAccount: number;
 	accounts: Account[];
 }
 
 interface Account {
+	isSelected: boolean;
 	memo: string;
 	domain: string;
 	prevText: string;
@@ -25,6 +25,7 @@ interface Account {
 
 
 const createDefaultAccount = (): Account => ({
+	isSelected: false,
 	memo: "",
 	domain: "",
 	prevText: "",
@@ -36,9 +37,11 @@ const createDefaultAccount = (): Account => ({
 	accountToken: null,
 });
 
+const selectedAccount = createDefaultAccount();
+selectedAccount.isSelected = true;
+
 const DEFAULT_SETTINGS: Partial<MisskeyPluginSettings> = {
-	selectedAccount: 0,
-	accounts: Array(5).fill(null).map(() => createDefaultAccount())
+	accounts: [selectedAccount],
 }
 
 
@@ -55,82 +58,76 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		const selectedAccount = this.plugin.settings.selectedAccount;
-
 		new Setting(containerEl)
-			.setName(i18n.t("selectAccount.name"))
-			.setDesc(i18n.t("selectAccount.desc"))
-			.addDropdown(dropdown => dropdown
-				.addOptions(
-					{
-						0: i18n.t("account") + "1",
-						1: i18n.t("account") + "2",
-						2: i18n.t("account") + "3",
-						3: i18n.t("account") + "4",
-						4: i18n.t("account") + "5"
-					},
-				).onChange(
-					async (value) => {
-						this.plugin.settings.selectedAccount = parseInt(value);
-						await this.plugin.saveSettings();
-						this.display();
-					}
-				).setValue(
-					`${selectedAccount}`
-				)
-			);
-		generateAccountSettings(selectedAccount, this.plugin);
+			.setName(i18n.t("addAccount.name"))
+			.addButton(button => button
+				.setButtonText(i18n.t("addAccount.buttonText"))
+				.onClick(async () => {
+					this.plugin.settings.accounts.push(createDefaultAccount());
+					await this.plugin.saveSettings();
+					this.display();
+				}));
 
-		/**
-		 * 個々のアカウントの設定を生成する
-		 * @param selectedAccount 選択されたアカウント
-		 * @param plugin 設定を保存するプラグイン
-		 */
-		function generateAccountSettings(selectedAccount: number, plugin: MisskeyPlugin){
-			const selectedAccountSetting = plugin.settings.accounts[selectedAccount];
+		for (const accountSetting of this.plugin.settings.accounts) {
 			new Setting(containerEl)
 				.setHeading()
-				.setName(i18n.t("account") + `${selectedAccount + 1}`)
+				.setName(i18n.t("accountHeading.name"))
+				.setDesc(accountSetting.isSelected ? i18n.t("accountHeading.desc") : "")
+
+			if (!accountSetting.isSelected) {
+				new Setting(containerEl)
+					.setName(i18n.t("useThisAccount.name"))
+					.addButton(button => button
+						.setButtonText(i18n.t("useThisAccount.buttonText"))
+						.onClick(async () => {
+							for (const account of this.plugin.settings.accounts) {
+								account.isSelected = false;
+							}
+							accountSetting.isSelected = true;
+							await this.plugin.saveSettings();
+							this.display();
+						}));
+			}
 
 			new Setting(containerEl)
 				.setName(i18n.t("memo.name"))
 				.setDesc(i18n.t("memo.desc"))
 				.addTextArea(text => text
 					.setPlaceholder(i18n.t("memo.placeholder"))
-					.setValue(selectedAccountSetting.memo)
+					.setValue(accountSetting.memo)
 					.onChange(async (value) => {
-						selectedAccountSetting.memo = value;
-						await plugin.saveSettings();
+						accountSetting.memo = value;
+						await this.plugin.saveSettings();
 					}));
 			new Setting(containerEl)
 				.setName(i18n.t("domain.name"))
 				.setDesc(i18n.t("domain.desc"))
 				.addText(text => text
 					.setPlaceholder(i18n.t("domain.placeholder"))
-					.setValue(selectedAccountSetting.domain)
+					.setValue(accountSetting.domain)
 					.onChange(async (value) => {
-						selectedAccountSetting.domain = value;
-						await plugin.saveSettings();
+						accountSetting.domain = value;
+						await this.plugin.saveSettings();
 					}));
 			new Setting(containerEl)
 				.setName(i18n.t("prevText.name"))
 				.setDesc(i18n.t("prevText.desc"))
 				.addTextArea(text => text
 					.setPlaceholder(i18n.t("prevText.placeholder"))
-					.setValue(selectedAccountSetting.prevText)
+					.setValue(accountSetting.prevText)
 					.onChange(async (value) => {
-						selectedAccountSetting.prevText = value;
-						await plugin.saveSettings();
+						accountSetting.prevText = value;
+						await this.plugin.saveSettings();
 					}));
 			new Setting(containerEl)
 				.setName(i18n.t("postText.name"))
 				.setDesc(i18n.t("postText.desc"))
 				.addTextArea(text => text
 					.setPlaceholder(i18n.t("postText.placeholder"))
-					.setValue(selectedAccountSetting.postText)
+					.setValue(accountSetting.postText)
 					.onChange(async (value) => {
-						selectedAccountSetting.postText = value;
-						await plugin.saveSettings();
+						accountSetting.postText = value;
+						await this.plugin.saveSettings();
 					}));
 
 			// 俺にはこれが必要なのか分からないけどMisskeyプラグインがあるので作っておく
@@ -139,10 +136,10 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 				.setName(i18n.t("isFileNameHidden.name"))
 				.setDesc(i18n.t("isFileNameHidden.desc"))
 				.addToggle(toggle => toggle
-					.setValue(selectedAccountSetting.isFileNameHidden)
+					.setValue(accountSetting.isFileNameHidden)
 					.onChange(async (value) => {
-						selectedAccountSetting.isFileNameHidden = value;
-						await plugin.saveSettings();
+						accountSetting.isFileNameHidden = value;
+						await this.plugin.saveSettings();
 					}));
 
 			new Setting(containerEl)
@@ -161,11 +158,11 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 								new Notice(i18n.t("visibility.valueError"))
 								return;
 							}
-							selectedAccountSetting.visibility = value;
-							await plugin.saveSettings();
+							accountSetting.visibility = value;
+							await this.plugin.saveSettings();
 						}
 					).setValue(
-						selectedAccountSetting.visibility
+						accountSetting.visibility
 					)
 				);
 
@@ -175,12 +172,12 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 				.addTextArea(text => text
 					.setPlaceholder(i18n.t("uploadAllowedList.placeholder"))
 					.setValue(
-						selectedAccountSetting.uploadAllowedList.length === 0 ?
-							"" : selectedAccountSetting.uploadAllowedList.join(", ")
+						accountSetting.uploadAllowedList.length === 0 ?
+							"" : accountSetting.uploadAllowedList.join(", ")
 					)
 					.onChange(async (value) => {
-						selectedAccountSetting.uploadAllowedList = value.split(",").map((item) => item.trim());
-						await plugin.saveSettings();
+						accountSetting.uploadAllowedList = value.split(",").map((item) => item.trim());
+						await this.plugin.saveSettings();
 					}));
 
 			new Setting(containerEl)
@@ -198,11 +195,11 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 								new Notice(i18n.t("embedFormat.valueError"))
 								return;
 							}
-							selectedAccountSetting.embedFormat = value;
-							await plugin.saveSettings();
+							accountSetting.embedFormat = value;
+							await this.plugin.saveSettings();
 						}
 					).setValue(
-						selectedAccountSetting.embedFormat
+						accountSetting.embedFormat
 					)
 				);
 
@@ -213,7 +210,7 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 					.setButtonText(i18n.t("tokenSetting.buttonText"))
 					.onClick(async () => {
 						// MiAuthを使用してアクセストークンを取得します
-						const domain = selectedAccountSetting.domain;
+						const domain = accountSetting.domain;
 
 						if (domain === "") {
 							new Notice(i18n.t("tokenSetting.domainNotSet"))
@@ -245,11 +242,35 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 							if (data.ok) {
 								new Notice(i18n.t("tokenSetting.tokenSettingsComplete"))
 								clearInterval(intervalId);
-								selectedAccountSetting.accountToken = data.token;
-								await plugin.saveSettings();
+								accountSetting.accountToken = data.token;
+								await this.plugin.saveSettings();
 							}
 							intervalCount++;
 						}, 5000)
+					}));
+
+			new Setting(containerEl)
+				.setName(i18n.t("deleteAccount.name"))
+				.setDesc(i18n.t("deleteAccount.desc"))
+				.addButton(button => button
+					.setButtonText(i18n.t("deleteAccount.buttonText"))
+					.setWarning()
+					.onClick(async () => {
+						if (accountSetting.isSelected){
+							new Notice(i18n.t("deleteAccount.selectedAccountError"))
+							return;
+						}
+						if (this.plugin.settings.accounts.length === 1){
+							new Notice(i18n.t("deleteAccount.lastAccountError"))
+							return;
+						}
+						if (!confirm(i18n.t("deleteAccount.confirm"))) {
+							return;
+						}
+						this.plugin.settings.accounts = this.plugin.settings.accounts.filter((item) => item !== accountSetting);
+						await this.plugin.saveSettings();
+						this.display();
+						new Notice(i18n.t("deleteAccount.accountDeleted"))
 					}));
 		}
 	}
@@ -289,7 +310,7 @@ export default class MisskeyPlugin extends Plugin {
 			if (/^(data:|https?:\/\/)/.test(fileName)) {
 				return
 			}
-			const selectedAccount = this.settings.accounts[this.settings.selectedAccount];
+			const selectedAccount = this.getSelectedAccount();
 
 			let targetFile = null; // 探しているファイルへの参照を保持するための変数
 
@@ -363,16 +384,16 @@ export default class MisskeyPlugin extends Plugin {
 	 */
 	private async postToMisskey(note: string, noteVisibility: "public" | "home" | "followers",
 								fileIds: string[] = []): Promise<void> {
-		const domain = this.settings.accounts[this.settings.selectedAccount].domain;
-		const token = this.settings.accounts[this.settings.selectedAccount].accountToken;
+		const domain = this.getSelectedAccount().domain;
+		const token = this.getSelectedAccount().accountToken;
 		if (token === null) {
 			new Notice("アクセストークンが設定されていません。設定画面から設定してください。");
 			return;
 		}
 
 		// 投稿の前部分と後部分を取得
-		const prevText = this.settings.accounts[this.settings.selectedAccount].prevText;
-		const postText = this.settings.accounts[this.settings.selectedAccount].postText;
+		const prevText = this.getSelectedAccount().prevText;
+		const postText = this.getSelectedAccount().postText;
 		let bodyObject: object = {
 			i: token,
 			text: prevText.replace("\\n", "\n") + note + postText.replace("\\n", "\n"),
@@ -410,7 +431,7 @@ export default class MisskeyPlugin extends Plugin {
 	 * @param urls ノートのURL。複数指定可能
 	 */
 	private async quoteFromMisskeyNote(urls: string[] | string): Promise<string[][]> {
-		const embedFormat = this.settings.accounts[this.settings.selectedAccount].embedFormat;
+		const embedFormat = this.getSelectedAccount().embedFormat;
 		if (typeof urls === "string") {
 			urls = [urls];
 		}
@@ -433,10 +454,10 @@ export default class MisskeyPlugin extends Plugin {
 
 			// URLが現在のプロフィールのドメインと一緒だった場合、アクセストークンを送る。
 			// これは公開範囲が限定されたノートを取得するため
-			if (this.settings.accounts[this.settings.selectedAccount].domain === misskeyDomain) {
+			if (this.getSelectedAccount().domain === misskeyDomain) {
 				bodyObject = {
 					...bodyObject,
-					"i": this.settings.accounts[this.settings.selectedAccount].accountToken
+					"i": this.getSelectedAccount().accountToken
 				};
 			}
 
@@ -527,29 +548,38 @@ export default class MisskeyPlugin extends Plugin {
 	}
 
 	private isSettingsValid(): boolean {
-		if (this.settings.selectedAccount >= this.settings.accounts.length) {
-			new Notice(i18n.t("selectedAccountNotFoundError"))
+		if (this.getSelectedAccount() === null) {
+			new Notice(i18n.t("accountNotSelectedError"))
 			return false;
 		}
 
-		const currentAccount = this.settings.accounts[this.settings.selectedAccount];
-		if (currentAccount.domain === "") {
+		const selectedAccount = this.getSelectedAccount();
+		if (selectedAccount.domain === "") {
 			new Notice(i18n.t("domainNotSetError"))
 			return false;
 		}
-		if (currentAccount.accountToken === null) {
+		if (selectedAccount.accountToken === null) {
 			new Notice(i18n.t("accountTokenNotSetError"))
 			return false;
 		}
-		if (currentAccount.embedFormat !== "markdown" && currentAccount.embedFormat !== "html") {
+		if (selectedAccount.embedFormat !== "markdown" && selectedAccount.embedFormat !== "html") {
 			new Notice(i18n.t("embedFormatValueError"))
 			return false;
 		}
-		if (currentAccount.visibility !== "public" && currentAccount.visibility !== "home" && currentAccount.visibility !== "followers") {
+		if (selectedAccount.visibility !== "public" && selectedAccount.visibility !== "home" && selectedAccount.visibility !== "followers") {
 			new Notice(i18n.t("visibilityValueError"))
 			return false;
 		}
 		return true;
+	}
+
+	private getSelectedAccount(): Account {
+		const account = this.settings.accounts.find((account) => account.isSelected);
+		if (account === undefined) {
+			// 異常事態。設定画面で選択されているアカウントがない場合はデフォルトのアカウントを返す
+			return this.settings.accounts[0];
+		}
+		return account;
 	}
 
 
@@ -581,7 +611,7 @@ export default class MisskeyPlugin extends Plugin {
 				// この記法はObsidianの独自記法なので削除しても問題ないと判断
 				const pattern = /!\[\[.*?]]/g;
 				await this.postToMisskey(text.replace(pattern, ''),
-					this.settings.accounts[this.settings.selectedAccount].visibility, imageIDs);
+					this.getSelectedAccount().visibility, imageIDs);
 			},
 		});
 

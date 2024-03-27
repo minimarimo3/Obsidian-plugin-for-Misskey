@@ -4,7 +4,25 @@
         "name": "アカウントを選択",
         "desc": "投稿するアカウントを選択してください。"
     },
+	"addAccount": {
+		"name": "アカウントを追加",
+		"desc": "アカウントを追加する",
+		"buttonText": "アカウントを追加"
+	},
     "account": "アカウント",
+	"accountHeading": {
+		"name": "アカウント",
+		"desc": "現在このアカウントを使用しています"
+	},
+	"useThisAccount": {
+		"name": "このアカウントを使用",
+		"desc": "このアカウントを使用して投稿します。",
+		"buttonText": "このアカウントを使用"
+	},
+	"accountSelectedButton": {
+		"name": "このアカウントで投稿する",
+		"buttonText": "このアカウントを選択"
+	},
     "memo": {
         "name": "メモ",
         "desc": "プログラムからは使いません。アカウントがなんのアカウントかをメモしておくための項目です。",
@@ -52,6 +70,15 @@
         "timeOut": "認証がタイムアウトしました。再度アクセストークンの生成を行ってください。",
         "tokenSettingsComplete": "アクセストークンの設定が完了しました。"
     },
+	"deleteAccount": {
+		"name": "Obsidianからアカウントを削除",
+		"desc": "実行するとObsidianに登録されたアカウントの設定が全て消えます。(Misskeyには影響ありません)",
+		"buttonText": "アカウントを削除",
+		"confirm": "アカウントを削除しますか？",
+		"selectedAccountError": "このアカウントは投稿用に選択されているため削除できません。他のアカウントを選択してから削除してください。",
+		"lastAccountError": "アカウントが1つしか登録されていないため削除できません。",
+		"accountDeleted": "Misskeyアカウントの情報がObsidianから削除されました。"
+	},
     "fileNotFound": "ファイルが見つかりませんでした: ",
     "thisFileTypeIsNotAllowed": "このファイルのアップロードは許可されていません(設定から変更可能): ",
     "uploadingImage": "画像をアップロード中...",
