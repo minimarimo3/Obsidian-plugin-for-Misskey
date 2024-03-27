@@ -4,7 +4,25 @@
         "name": "Select Account",
         "desc": "Select the account you want to use."
     },
+	"addAccount": {
+		"name": "Add Account",
+		"desc": "Add a new account.",
+		"buttonText": "Add Account"
+	},
     "account": "Account",
+	"accountHeading": {
+		"name": "Account",
+		"desc": "You are currently using this account"
+	},
+	"useThisAccount": {
+		"name": "Use this account",
+		"desc": "Use this account for posting.",
+		"buttonText": "Use this account"
+	},
+	"accountSelectedButton": {
+		"name": "Post with this account",
+		"buttonText": "Post with this account"
+	},
     "memo": {
         "name": "Memo",
         "desc": "This is not used by the program. It is an item for memoizing what kind of account it is.",
@@ -52,6 +70,15 @@
         "timeOut": "Authentication timed out. Please generate the access token again.",
         "tokenSettingsComplete": "Access token settings are complete."
     },
+	"deleteAccount": {
+		"name": "Delete Account from Obsidian",
+		"desc": "When executed, all settings of the account registered in Obsidian will be deleted. (No effect on Misskey)",
+		"buttonText": "Delete Account",
+		"confirm": "Are you sure you want to delete the account?",
+		"selectedAccountError": "You cannot delete the account because it is selected for posting. Please select another account and then delete it.",
+		"lastAccountError": "You cannot delete the account because only one account is registered.",
+		"accountDeleted": "The Misskey account information has been deleted from Obsidian."
+	},
     "fileNotFound": "File not found: ",
     "thisFileTypeIsNotAllowed": "This file is not allowed to be uploaded (changeable from settings): ",
     "uploadingImage": "Uploading image...",
