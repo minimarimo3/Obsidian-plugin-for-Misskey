@@ -1,4 +1,4 @@
-import {Plugin, Notice, RequestUrlParam, requestUrl, PluginSettingTab, Setting, App, TFile} from "obsidian";
+import {Plugin, Notice, RequestUrlParam, requestUrl, PluginSettingTab, Setting, App, TFile, moment} from "obsidian";
 
 import i18n from 'i18next';
 
@@ -8,32 +8,37 @@ import jaTranslation from './locales/ja.json';
 
 interface MisskeyPluginSettings {
 	selectedAccount: number;
-	language: "ja" | "en";
-	accounts:
-		{
-			memo: string,
-			domain: string
-			prevText: string,
-			postText: string,
-			isFileNameHidden: boolean,
-			visibility: "public" | "home" | "followers",
-			uploadAllowedList: string[],
-			embedFormat: "markdown" | "html",
-			accountToken: string | null
-		}[]
+	accounts: Account[];
 }
+
+interface Account {
+	memo: string;
+	domain: string;
+	prevText: string;
+	postText: string;
+	isFileNameHidden: boolean;
+	visibility: "public" | "home" | "followers"; // "specified"はサポートしない
+	uploadAllowedList: string[];
+	embedFormat: string;
+	accountToken: null | string;
+}
+
+
+const createDefaultAccount = (): Account => ({
+	memo: "",
+	domain: "",
+	prevText: "",
+	postText: "",
+	isFileNameHidden: false,
+	visibility: "public",
+	uploadAllowedList: ["png", "jpg", "jpeg", "gif", "bmp", "svg", "mp3", "webm", "wav", "m4a", "ogg", "3gp", "flac", "mp4", "webm", "ogv"],
+	embedFormat: "html",
+	accountToken: null,
+});
 
 const DEFAULT_SETTINGS: Partial<MisskeyPluginSettings> = {
 	selectedAccount: 0,
-	language: "ja",
-	accounts: [
-		// ファイル名はObsidianに埋め込み可能なフォーマット(https://publish.obsidian.md/help-ja/%E3%82%AC%E3%82%A4%E3%83%89/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%9F%8B%E3%82%81%E8%BE%BC%E3%82%80)からPDFを省いたもの
-		{memo: "", domain: "", prevText: "", postText: "", isFileNameHidden: false, visibility: "public", uploadAllowedList:["png", "jpg", "jpeg", "gif", "bmp", "svg", "mp3", "webm", "wav", "m4a", "ogg", "3gp", "flac", "mp4", "webm", "ogv"], embedFormat: "html", accountToken: null},
-		{memo: "", domain: "", prevText: "", postText: "", isFileNameHidden: false, visibility: "public", uploadAllowedList:["png", "jpg", "jpeg", "gif", "bmp", "svg", "mp3", "webm", "wav", "m4a", "ogg", "3gp", "flac", "mp4", "webm", "ogv"], embedFormat: "html", accountToken: null},
-		{memo: "", domain: "", prevText: "", postText: "", isFileNameHidden: false, visibility: "public", uploadAllowedList:["png", "jpg", "jpeg", "gif", "bmp", "svg", "mp3", "webm", "wav", "m4a", "ogg", "3gp", "flac", "mp4", "webm", "ogv"], embedFormat: "html", accountToken: null},
-		{memo: "", domain: "", prevText: "", postText: "", isFileNameHidden: false, visibility: "public", uploadAllowedList:["png", "jpg", "jpeg", "gif", "bmp", "svg", "mp3", "webm", "wav", "m4a", "ogg", "3gp", "flac", "mp4", "webm", "ogv"], embedFormat: "html", accountToken: null},
-		{memo: "", domain: "", prevText: "", postText: "", isFileNameHidden: false, visibility: "public", uploadAllowedList:["png", "jpg", "jpeg", "gif", "bmp", "svg", "mp3", "webm", "wav", "m4a", "ogg", "3gp", "flac", "mp4", "webm", "ogv"], embedFormat: "html", accountToken: null},
-	]
+	accounts: Array(5).fill(null).map(() => createDefaultAccount())
 }
 
 
@@ -51,30 +56,6 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 		containerEl.empty();
 
 		const selectedAccount = this.plugin.settings.selectedAccount;
-
-		new Setting(containerEl)
-			.setName("Language")
-			.addDropdown(dropdown => dropdown
-				.addOptions(
-					{
-						"ja": "日本語",
-						"en": "English"
-					},
-				).onChange(
-					async (value) => {
-						if (value !== "ja" && value !== "en"){
-							new Notice("ValueError: " + value + " is not a valid value.")
-							return;
-						}
-						this.plugin.settings.language = value;
-						await this.plugin.saveSettings();
-						await i18n.changeLanguage(value);
-						this.display();
-					}
-				).setValue(
-					`${this.plugin.settings.language}`
-				)
-			);
 
 		new Setting(containerEl)
 			.setName(i18n.t("selectAccount.name"))
@@ -581,8 +562,8 @@ export default class MisskeyPlugin extends Plugin {
 				en: { translation: enTranslation },
 			},
 			// デフォルト言語を設定
-			lng: this.settings.language,
-			fallbackLng: "ja",
+			lng: moment.locale(),
+			fallbackLng: "en",
 		});
 
 		this.addSettingTab(new MisskeyPluginSettingsTab(this.app, this));
