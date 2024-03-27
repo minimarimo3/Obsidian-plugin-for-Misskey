@@ -13,7 +13,7 @@ The posting command supports options such as tagging, limiting files to upload, 
 
 1. Open settings and select "Misskey Connector" from Community Plugins.
 2. Enter your account's domain in "Domain". (For example, enter misskey.io for <https://misskey.io/@minimarimo3>.)
-![Initial Setup Screen](./documents/en-US/initial_setup.png)
+![Initial Setup Screen](./documents/en-US/Initial%20Setup.png)
 3. Press the "Generate Access Token" button at the bottom. A browser will open with a screen like the one shown in the image, so please press "Allow" promptly.
 ![Authentication by MiAuth](./documents/en-US/MiAuth.png)
 Q: What is this? And why is it necessary?

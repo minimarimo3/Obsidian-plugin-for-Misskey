@@ -11,7 +11,7 @@ Misskeyのノートを引用形式で埋め込む`Embed a Misskey note`と、現
 
 1. 設定を開き、コミュニティプラグインの「Misskey Connector」を選択します。
 2. 「ドメイン」に自分のアカウントのドメインを入力します。(<https://misskey.io/@minimarimo3> ならmisskey.ioを入力してください。)
-![初期設定画面](./初期設定.png)
+![初期設定画面](./設定画面.png)
 3. 一番下にある「アクセストークンを生成する」ボタンを押してください。するとブラウザが開き、画像のような画面が出てくるので早めに「許可」を押してください。
 ![MiAuthによる認証](./MiAuth.png)
 Q. これは何?それとなんで必要なの? A. これは[MiAuthというMisskeyが提供している認証方式](https://misskey-hub.net/ja/docs/for-developers/api/token/miauth/)です。今回は「ノートを作成・削除する」権限と「ドライブを操作する」権限を求めています。ドライブの操作はメディアのアップロードに必要です。
