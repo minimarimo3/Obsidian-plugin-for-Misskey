@@ -1,7 +1,7 @@
 {
 	"id": "misskey-connector",
 	"name": "Misskey Connector",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "Enables posting and embedding Misskey notes.",
 	"author": "minimarimo3",
