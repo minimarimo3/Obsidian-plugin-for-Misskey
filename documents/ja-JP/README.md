@@ -1,4 +1,4 @@
-# Obsidian-plugin-for-misskey
+# Obsidian plugin for Misskey (Misskey Connector)
 
 ## できること
 
@@ -54,4 +54,4 @@ Misskeyに投稿したい文章がある行で`Post the current line to Misskey`
 
 ## 連絡先
 
-追加して欲しい機能やバグなどはGitHubか[@minimarimo3@misskey.io](https://misskey.io/@minimarimo3)か[Googleフォーム](https://forms.gle/K4EecLTgpERZRrbq5)までお願いします。
+追加して欲しい機能やバグなどはGitHubか[@minimarimo3@misskey.io](https://misskey.io/@minimarimo3)か[匿名でメッセージを伝えられるGoogleフォーム](https://forms.gle/K4EecLTgpERZRrbq5)までお願いします。
