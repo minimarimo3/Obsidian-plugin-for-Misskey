@@ -1,4 +1,4 @@
-# Obsidian plugin for Misskey
+# Obsidian plugin for Misskey (Misskey Connector)
 
 [日本語はこちら](https://github.com/minimarimo3/Obsidian-plugin-for-Misskey/blob/master/documents/ja-JP/README.md)
 
