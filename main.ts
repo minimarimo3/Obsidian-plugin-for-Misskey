@@ -356,7 +356,7 @@ export default class MisskeyPlugin extends Plugin {
 			const blob = new Blob([fileContent], {type: "application/octet-stream"});
 			const formData = new FormData();
 			formData.append('i', token);
-			formData.append('file', blob, selectedAccount.isFileNameHidden ? fileName : new Date().toISOString());
+			formData.append('file', blob, selectedAccount.isFileNameHidden ? new Date().toISOString() : fileName);
 
 			// 画像をアップロード
 			try{
