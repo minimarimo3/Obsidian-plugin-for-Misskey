@@ -47,6 +47,10 @@ Misskeyに投稿したい文章がある行で`Post the current line to Misskey`
 - アップロードを許可するファイル拡張子の設定
   - 特定の拡張子のファイルのみアップロードといったことが可能になります。
 
+### 活用例
+
+- [ブックマークレットを使って今日の投稿内容のURLを取得](https://log.minimarimo3.jp/%E4%BB%8A%E6%97%A5Misskey%E3%81%AB%E6%8A%95%E7%A8%BF%E3%81%97%E3%81%9F%E3%83%8E%E3%83%BC%E3%83%88%E3%81%AEURL%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B%E3%83%96%E3%83%83%E3%82%AF%E3%83%9E%E3%83%BC%E3%82%AF%E3%83%AC%E3%83%83%E3%83%88)、その後当プラグインで埋め込む
+
 ## ライセンス
 
 このプロジェクトはMITライセンスで公開されている[i18next](https://www.i18next.com)を使用しています。より詳細な情報については [i18nextのGitHubリポジトリ](https://github.com/i18next/i18next)を参照してください。
