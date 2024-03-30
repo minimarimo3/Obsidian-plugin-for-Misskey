@@ -495,6 +495,18 @@ export default class MisskeyPlugin extends Plugin {
 				}
 			}
 
+			// 引用元のノートがある場合、それを引用として表示する
+			if (data.renote?.id){
+				const renote = (await this.quoteFromMisskeyNote(`https://${misskeyDomain}/notes/${data.renote.id}`))
+				if (renote.length){
+					note += `
+> RN: 
+> 
+> ${renote[0][1]}
+`;
+				}
+			}
+
 			// 引用元のユーザー情報を表示するための処理
 			note += "\n";
 
