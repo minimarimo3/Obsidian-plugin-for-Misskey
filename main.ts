@@ -470,7 +470,15 @@ export default class MisskeyPlugin extends Plugin {
 				"body": JSON.stringify(bodyObject)
 			};
 
-			const response = await requestUrl(urlParams);
+			const response = await requestUrl(urlParams).catch(
+				(error) => {
+					new Notice(i18n.t("noteCannotBeQuoted") + url);
+					return;
+				}
+			);
+			if (response === undefined) {
+				continue;
+			}
 			// Misskeyのドメインを網羅することはできないので200が帰ってきたらMisskeyのノートとみなす
 			if (response.status !== 200) {
 				new Notice(i18n.t("noteCannotBeQuoted") + url);
