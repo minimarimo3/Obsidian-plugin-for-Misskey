@@ -429,8 +429,9 @@ export default class MisskeyPlugin extends Plugin {
 	/**
 	 * Misskeyのノートを取得し、引用形式で返す
 	 * @param urls ノートのURL。複数指定可能
+	 * @param isResolveRenote リノートを解決するかどうか
 	 */
-	private async quoteFromMisskeyNote(urls: string[] | string): Promise<string[][]> {
+	private async quoteFromMisskeyNote(urls: string[] | string, isResolveRenote=true): Promise<string[][]> {
 		const embedFormat = this.getSelectedAccount().embedFormat;
 		if (typeof urls === "string") {
 			urls = [urls];
@@ -504,8 +505,8 @@ export default class MisskeyPlugin extends Plugin {
 			}
 
 			// 引用元のノートがある場合、それを引用として表示する
-			if (data.renote?.id){
-				const renote = (await this.quoteFromMisskeyNote(`https://${misskeyDomain}/notes/${data.renote.id}`))
+			if (isResolveRenote && data.renote?.id){
+				const renote = (await this.quoteFromMisskeyNote(`https://${misskeyDomain}/notes/${data.renote.id}`, false))
 				if (renote.length){
 					note += `
 > RN: 
