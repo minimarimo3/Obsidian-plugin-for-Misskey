@@ -495,6 +495,38 @@ export default class MisskeyPlugin extends Plugin {
 				}
 			}
 
+			/* リノートの場合は以下のように表示する
+ 			 *
+ 			 * > RN:
+ 			 * > リノート対象のテキスト
+ 			 * > リノート対象のテキスト
+ 			 * > リノート対象のテキスト
+ 			 * >
+ 			 * > ※ ユーザーの表示
+			 */
+			if (data.renote?.id){
+				let renote = "\nRN: \n";
+				const text = data.renote?.text;
+				for (const line of text.split("\n")) {
+					renote += line + "\n";
+				}
+				renote += "\n";
+				// 初期アイコンはidenticon(一度移動する必要がある)なので、それ以外の場合のみアイコンを埋め込む
+				if (new URL(data.renote.user.avatarUrl).pathname.split('/')[1] !== 'identicon') {
+					const iconSize = 20;
+					if (embedFormat === "markdown") {
+						renote += `![${data.renote.user.username}|${iconSize}](${data.renote.user.avatarUrl})`;
+					} else if (embedFormat === "html") {
+						renote += `<img src="${data.renote.user.avatarUrl}" alt="${data.renote.user.username}" width="${iconSize}">`;
+					}
+				}
+				// data.renote.user.nameはバージョンによってはnullの場合がある。少なくともv2023.11ではnull。空文字にしとく
+				renote += ` ${data.renote.user.name || ""}[`+ i18n.t("openOriginalNote", { username: data.renote.user.username}) +`](${url})`;
+				note += renote.split("\n").map((line) => "> " + line).join("\n");
+				// リノートのクオートが続かないようにするために改行
+				note += "\n";
+			}
+
 			// 引用元のユーザー情報を表示するための処理
 			note += "\n";
 
