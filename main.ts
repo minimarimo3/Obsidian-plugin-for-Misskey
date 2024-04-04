@@ -550,8 +550,26 @@ export default class MisskeyPlugin extends Plugin {
 
 			// 絵文字を走査する。ユーザー名に絵文字が含まれている場合があるためこの位置になる
 			while ((match = pattern.exec(note)) !== null) {
+				const urlParams: RequestUrlParam = {
+					"url": `https://${misskeyDomain}/api/notes/show`,
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"body": JSON.stringify(bodyObject)
+				};
+
+				const noteResponse = await requestUrl(urlParams).catch(
+					(error) => {
+						new Notice(i18n.t("noteCannotBeQuoted") + url);
+						return;
+					}
+				);
+				if (!noteResponse){ continue; }
+				const emojiHostedDomain = noteResponse.json.uri ? (new URL(noteResponse.json.uri)).hostname : misskeyDomain;
+
 				const emojiName = match[1];
-				const url = `https://${misskeyDomain}/api/emoji?name=${emojiName}`;
+				const url = `https://${emojiHostedDomain}/api/emoji?name=${emojiName}`;
 				const response = await requestUrl({
 					"url": url,
 					"method": "GET"
