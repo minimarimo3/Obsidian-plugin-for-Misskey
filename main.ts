@@ -7,6 +7,7 @@ import jaTranslation from './locales/ja.json';
 
 
 interface MisskeyPluginSettings {
+	multiLinePostingSection: string;
 	accounts: Account[];
 }
 
@@ -41,6 +42,7 @@ const selectedAccount = createDefaultAccount();
 selectedAccount.isSelected = true;
 
 const DEFAULT_SETTINGS: Partial<MisskeyPluginSettings> = {
+	multiLinePostingSection: "---",
 	accounts: [selectedAccount],
 }
 
@@ -57,6 +59,18 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 		const { containerEl } = this;
 
 		containerEl.empty();
+
+		new Setting(containerEl)
+			.setName(i18n.t("multiLinePostingSection.name"))
+			.setDesc(i18n.t("multiLinePostingSection.desc"))
+			.addText(text => text
+				.setPlaceholder(i18n.t("multiLinePostingSection.placeholder"))
+				.setValue(this.plugin.settings.multiLinePostingSection)
+				.onChange(async (value) => {
+					this.plugin.settings.multiLinePostingSection = value;
+					await this.plugin.saveSettings();
+				})
+			);
 
 		new Setting(containerEl)
 			.setName(i18n.t("addAccount.name"))
@@ -573,6 +587,10 @@ export default class MisskeyPlugin extends Plugin {
 			new Notice(i18n.t("accountNotSelectedError"))
 			return false;
 		}
+		if (this.settings.multiLinePostingSection === "") {
+			new Notice(i18n.t("multiLinePostingSectionNotSetError"))
+			return false;
+		}
 
 		const selectedAccount = this.getSelectedAccount();
 		if (selectedAccount.domain === "") {
@@ -635,6 +653,37 @@ export default class MisskeyPlugin extends Plugin {
 					this.getSelectedAccount().visibility, imageIDs);
 			},
 		});
+
+		// 現在の行から初めて、multiLinePostingSectionが現れるまでの行を取得後、それをMisskeyに投稿する
+		this.addCommand({
+			id: "post-to-misskey-multi-line",
+			name: "Post the current section to Misskey",
+			editorCallback: async (editor) => {
+				if (!this.isSettingsValid()) { return; }
+
+				new Notice(i18n.t("postingToMisskey"))
+				const cursor = editor.getCursor();
+				const lineCount = editor.lineCount();
+				const multiLinePostingSection = this.settings.multiLinePostingSection;
+				const startLine = JSON.parse(JSON.stringify(cursor));
+				let endLine = cursor;
+				for (let i = cursor.line; i < lineCount; i++) {
+					if (editor.getLine(i) === multiLinePostingSection) {
+						endLine.line = i;
+						break;
+					}
+				}
+				if (startLine.line === endLine.line) {
+					new Notice(i18n.t("noSectionFound"))
+					return;
+				}
+				const text = editor.getRange(startLine, endLine);
+				const imageIDs = await this.uploadFileToMisskey(text);
+				const pattern = /!\[\[.*?]]/g;
+				await this.postToMisskey(text.replace(pattern, ''),
+					this.getSelectedAccount().visibility, imageIDs);
+			},
+		})
 
 		this.addCommand({
 			id: "embed-misskey-note",

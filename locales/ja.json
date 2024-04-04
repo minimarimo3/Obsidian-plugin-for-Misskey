@@ -9,6 +9,11 @@
 		"desc": "アカウントを追加する",
 		"buttonText": "アカウントを追加"
 	},
+	"multiLinePostingSection": {
+		"name": "複数行投稿の際に使用する区切り文字",
+		"desc": "複数行のテキストをMisskeyに投稿する際の区切り文字に使う文字。改行は\\nで表してください。",
+		"placeholder": "例) \\n\\n"
+	},
     "account": "アカウント",
 	"accountHeading": {
 		"name": "アカウント",

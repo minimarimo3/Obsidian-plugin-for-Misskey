@@ -9,6 +9,11 @@
 		"desc": "Add a new account.",
 		"buttonText": "Add Account"
 	},
+	"multiLinePostingSection": {
+		"name": "Separator character for multi-line posting",
+		"desc": "The character used as a separator when posting multiple lines of text to Misskey. Use \\n to represent a line break.",
+		"placeholder": "e.g. \\n\\n"
+	},
     "account": "Account",
 	"accountHeading": {
 		"name": "Account",
