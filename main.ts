@@ -418,7 +418,7 @@ export default class MisskeyPlugin extends Plugin {
 					method: "POST",
 					body: formData
 				})).json();
-				new Notice(data.error ? ("Error:" + data.error.message) : ("画像をアップロードしました。"));
+				new Notice(data.error ? ("Error:" + data.error.message) : i18n.t("imageUploaded"));
 				imageIDList.push(data.id);
 			} catch (error) {
 				new Notice(i18n.t("imageCannotBeUploaded") + error);
@@ -473,7 +473,7 @@ export default class MisskeyPlugin extends Plugin {
 
 		try {
 			const data = (await requestUrl(urlParams)).json;
-			new Notice(data.error ? ("Error:" + data.error.message) : ("ノートを送信しました。"));
+			new Notice(data.error ? ("Error:" + data.error.message) : i18n.t("noteSent"));
 			return data;
 		} catch (error) {
 			new Notice(i18n.t("noteCannotBeSend") + error);

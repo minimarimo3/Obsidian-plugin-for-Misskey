@@ -4,15 +4,19 @@
         "name": "Select Account",
         "desc": "Select the account you want to use."
     },
-	"addAccount": {
-		"name": "Add Account",
-		"desc": "Add a new account.",
-		"buttonText": "Add Account"
+	"isConvertToWebP": {
+		"name": "Convert images to WebP",
+		"desc": "When enabled, images are converted to WebP format and uploaded. At the same time, the image quality is reduced, so you can expect to save drive space."
 	},
 	"multiLinePostingSection": {
 		"name": "Separator character for multi-line posting",
 		"desc": "The character used as a separator when posting multiple lines of text to Misskey. Use \\n to represent a line break.",
 		"placeholder": "e.g. \\n\\n"
+	},
+	"addAccount": {
+		"name": "Add Account",
+		"desc": "Add a new account.",
+		"buttonText": "Add Account"
 	},
     "account": "Account",
 	"accountHeading": {
@@ -23,10 +27,6 @@
 		"name": "Use this account",
 		"desc": "Use this account for posting.",
 		"buttonText": "Use this account"
-	},
-	"accountSelectedButton": {
-		"name": "Post with this account",
-		"buttonText": "Post with this account"
 	},
     "memo": {
         "name": "Memo",
@@ -77,7 +77,7 @@
     },
 	"deleteAccount": {
 		"name": "Delete Account from Obsidian",
-		"desc": "When executed, all settings of the account registered in Obsidian will be deleted. (No effect on Misskey)",
+		"desc": "When executed, all settings of the account registered in Obsidian will be deleted. No effect on Misskey",
 		"buttonText": "Delete Account",
 		"confirm": "Are you sure you want to delete the account?",
 		"selectedAccountError": "You cannot delete the account because it is selected for posting. Please select another account and then delete it.",
@@ -87,18 +87,23 @@
     "fileNotFound": "File not found: ",
     "thisFileTypeIsNotAllowed": "This file is not allowed to be uploaded (changeable from settings): ",
     "uploadingImage": "Uploading image...",
+	"imageUploaded": "Image uploaded.",
     "imageCannotBeUploaded": "The image could not be uploaded.",
+	"noteSent": "Note sent.",
     "noteCannotBeSend": "The note could not be sent.",
     "urlIsNotCorrect": "The URL is not correct: ",
     "noteCannotBeQuoted": "The note could not be quoted.",
+	"noteIsHidden": "This note is private. The account you selected may be incorrect.",
     "openOriginalNote": "Open the original note by @{{username}}",
     "emojiCannotBeFetched": "The emoji could not be fetched: ",
     "selectedAccountNotFoundError": "The selected account does not exist. If you get this error without any special operation, please contact the author.",
     "domainNotSetError": "The domain is not set. Please set it from the settings screen.",
     "accountTokenNotSetError": "The access token is not set. Please set it from the settings screen.",
+	"multiLinePostingSectionNotSetError": "The separator character for multi-line posting is not set. Please set it from the settings screen.",
     "embedFormatValueError": "The embed format has an invalid value. Please set the appropriate embed format.",
     "visibilityValueError": "The visibility has an invalid value. The visibility should be one of public, home, or followers. (Direct is not supported)",
     "postingToMisskey": "Posting to Misskey...",
+	"noSectionFound": "No section found.",
     "quoteFromMisskey": "Quote from Misskey",
     "collectingNotes": "Collecting notes...",
     "noteQuoted": "Note quoted."

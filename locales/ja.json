@@ -4,15 +4,19 @@
         "name": "アカウントを選択",
         "desc": "投稿するアカウントを選択してください。"
     },
-	"addAccount": {
-		"name": "アカウントを追加",
-		"desc": "アカウントを追加する",
-		"buttonText": "アカウントを追加"
+	"isConvertToWebP": {
+		"name": "画像をWebPに変換する",
+		"desc": "有効にすると画像をWebP形式に変換してアップロードします。同時に画像の品質も落とすためドライブ容量の節約が期待できます。"
 	},
 	"multiLinePostingSection": {
 		"name": "複数行投稿の際に使用する区切り文字",
 		"desc": "複数行のテキストをMisskeyに投稿する際の区切り文字に使う文字。改行は\\nで表してください。",
 		"placeholder": "例) \\n\\n"
+	},
+	"addAccount": {
+		"name": "アカウントを追加",
+		"desc": "アカウントを追加する",
+		"buttonText": "アカウントを追加"
 	},
     "account": "アカウント",
 	"accountHeading": {
@@ -23,10 +27,6 @@
 		"name": "このアカウントを使用",
 		"desc": "このアカウントを使用して投稿します。",
 		"buttonText": "このアカウントを使用"
-	},
-	"accountSelectedButton": {
-		"name": "このアカウントで投稿する",
-		"buttonText": "このアカウントを選択"
 	},
     "memo": {
         "name": "メモ",
@@ -41,7 +41,7 @@
     "prevText": {
         "name": "投稿の前部分",
         "desc": "投稿の前部分に追加する文章を入力してください。改行は \\n で表してください。",
-        "placeholder": "例) #一行記録\\n"
+        "placeholder": "例) #メモ\\n"
     },
     "postText": {
         "name": "投稿の後部分",
@@ -77,7 +77,7 @@
     },
 	"deleteAccount": {
 		"name": "Obsidianからアカウントを削除",
-		"desc": "実行するとObsidianに登録されたアカウントの設定が全て消えます。(Misskeyには影響ありません)",
+		"desc": "実行するとObsidianに登録されたアカウントの設定が全て消えます。Misskeyには影響しません。",
 		"buttonText": "アカウントを削除",
 		"confirm": "アカウントを削除しますか？",
 		"selectedAccountError": "このアカウントは投稿用に選択されているため削除できません。他のアカウントを選択してから削除してください。",
@@ -87,19 +87,24 @@
     "fileNotFound": "ファイルが見つかりませんでした: ",
     "thisFileTypeIsNotAllowed": "このファイルのアップロードは許可されていません(設定から変更可能): ",
     "uploadingImage": "画像をアップロード中...",
+	"imageUploaded": "画像をアップロードしました。",
     "imageCannotBeUploaded": "画像をアップロードできませんでした。",
+	"noteSent": "ノートを送信しました。",
     "noteCannotBeSend": "ノートを送信できませんでした。",
     "urlIsNotCorrect": "URLが正しくありません: ",
     "noteCannotBeQuoted": "ノートを引用できませんでした。",
+	"noteIsHidden": "このノートは非公開です。アカウントの選択が間違っている可能性があります。",
     "openOriginalNote": "@{{username}}さんの元ノートを開く",
     "emojiCannotBeFetched": "絵文字を取得できませんでした: ",
     "selectedAccountNotFoundError": "選択されたアカウントが存在しません。特別な操作をしてないのにこのエラーが出る場合は作者に連絡していただけると助かります。",
     "domainNotSetError": "ドメインが設定されていません。設定画面から設定してください。",
     "accountTokenNotSetError": "アクセストークンが設定されていません。設定画面から設定してください。",
+	"multiLinePostingSectionNotSetError": "複数行投稿の際に使用する区切り文字が設定されていません。設定画面から設定してください。",
     "embedFormatValueError": "埋め込み形式に不正な値が入力されました。適切な埋め込み形式を設定してください。",
     "visibilityValueError": "公開範囲に不正な値が入力されました。公開範囲はpublic, home, followersのいずれかにしてください。(ダイレクトはサポートしていません)",
     "postToMisskey": "Misskeyへ現在の行を投稿する",
     "postingToMisskey": "Misskeyへ投稿中...",
+	"noSectionFound": "投稿対象が見つかりませんでした。",
     "quoteFromMisskey": "Misskeyのノートを埋め込む",
     "collectingNotes": "ノートを取得中...",
     "noteQuoted": "ノートを引用しました。"
