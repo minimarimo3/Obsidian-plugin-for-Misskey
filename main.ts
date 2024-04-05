@@ -7,6 +7,7 @@ import jaTranslation from './locales/ja.json';
 
 
 interface MisskeyPluginSettings {
+	isConvertToWebP: boolean;
 	multiLinePostingSection: string;
 	accounts: Account[];
 }
@@ -42,6 +43,7 @@ const selectedAccount = createDefaultAccount();
 selectedAccount.isSelected = true;
 
 const DEFAULT_SETTINGS: Partial<MisskeyPluginSettings> = {
+	isConvertToWebP: false,
 	multiLinePostingSection: "---",
 	accounts: [selectedAccount],
 }
@@ -59,6 +61,16 @@ export class MisskeyPluginSettingsTab extends PluginSettingTab {
 		const { containerEl } = this;
 
 		containerEl.empty();
+
+		new Setting(containerEl)
+			.setName(i18n.t("isConvertToWebP.name"))
+			.setDesc(i18n.t("isConvertToWebP.desc"))
+			.addToggle(toggle => toggle
+				.setValue(this.plugin.settings.isConvertToWebP)
+				.onChange(async (value) => {
+					this.plugin.settings.isConvertToWebP = value;
+					await this.plugin.saveSettings();
+				}));
 
 		new Setting(containerEl)
 			.setName(i18n.t("multiLinePostingSection.name"))
@@ -367,7 +379,35 @@ export default class MisskeyPlugin extends Plugin {
 				return;
 			}
 
-			const blob = new Blob([fileContent], {type: "application/octet-stream"});
+			let blob = new Blob([fileContent], {type: "application/octet-stream"});
+
+			// 画像をwebpに変換
+			if (this.settings.isConvertToWebP && extension !== "webp"){
+				const image = new Image();
+				image.src = URL.createObjectURL(blob);
+				await new Promise((resolve) => {
+					image.onload = resolve;
+					image.onerror = resolve;
+				});
+				const canvas = document.createElement("canvas");
+				canvas.width = image.width;
+				canvas.height = image.height;
+				const context = canvas.getContext("2d");
+				if (context) {
+					context.drawImage(image, 0, 0, image.width, image.height);
+					await new Promise((resolve) => {
+						canvas.toBlob((webPBlob) => {
+							if (webPBlob) {
+								blob = webPBlob;
+							}
+							resolve(null);
+							// NOTE:
+							//  0.7は下のUsageに書いてあったそれっぽい値をとってきただけ。実際にこの値が使われてるのかは知らない。
+							//  https://github.com/misskey-dev/browser-image-resizer?tab=readme-ov-file#in-the-main-thread
+						}, "image/webp", 0.7);
+					});
+				}
+			}
 			const formData = new FormData();
 			formData.append('i', token);
 			formData.append('file', blob, selectedAccount.isFileNameHidden ? new Date().toISOString() : fileName);
@@ -690,8 +730,6 @@ export default class MisskeyPlugin extends Plugin {
 				const lineCount = editor.lineCount();
 				const multiLinePostingSection = this.settings.multiLinePostingSection.replace("\\n", "\n");
 				const textFromCursorToEnd = editor.getRange(cursor, {line: lineCount, ch: 0});
-				console.log(textFromCursorToEnd)
-				console.log(multiLinePostingSection)
 				const match = textFromCursorToEnd.split(multiLinePostingSection);
 				if (match.length === 1) {
 					new Notice(i18n.t("noSectionFound"))
