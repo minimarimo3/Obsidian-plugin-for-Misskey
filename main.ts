@@ -486,7 +486,7 @@ export default class MisskeyPlugin extends Plugin {
 			};
 
 			const response = await requestUrl(urlParams).catch(
-				(error) => {
+				() => {
 					new Notice(i18n.t("noteCannotBeQuoted") + url);
 					return;
 				}
@@ -560,12 +560,13 @@ export default class MisskeyPlugin extends Plugin {
 				};
 
 				const noteResponse = await requestUrl(urlParams).catch(
-					(error) => {
+					() => {
 						new Notice(i18n.t("noteCannotBeQuoted") + url);
 						return;
 					}
 				);
 				if (!noteResponse){ continue; }
+				// uriがあればリモートのノートを見てる状態なので絵文字のホストされているドメインを取得しそっちから絵文字を解決
 				const emojiHostedDomain = noteResponse.json.uri ? (new URL(noteResponse.json.uri)).hostname : misskeyDomain;
 
 				const emojiName = match[1];
@@ -573,7 +574,7 @@ export default class MisskeyPlugin extends Plugin {
 				const response = await requestUrl({
 					"url": url,
 					"method": "GET"
-				}).catch((error) => {
+				}).catch(() => {
 					new Notice(i18n.t("emojiCannotBeFetched") + emojiName);
 					return;
 				});
