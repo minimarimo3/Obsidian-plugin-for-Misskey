@@ -44,7 +44,7 @@ selectedAccount.isSelected = true;
 
 const DEFAULT_SETTINGS: Partial<MisskeyPluginSettings> = {
 	isConvertToWebP: false,
-	multiLinePostingSection: "---",
+	multiLinePostingSection: "---\n",
 	accounts: [selectedAccount],
 }
 
