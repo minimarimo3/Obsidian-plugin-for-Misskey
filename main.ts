@@ -683,20 +683,16 @@ export default class MisskeyPlugin extends Plugin {
 				new Notice(i18n.t("postingToMisskey"))
 				const cursor = editor.getCursor();
 				const lineCount = editor.lineCount();
-				const multiLinePostingSection = this.settings.multiLinePostingSection;
-				const startLine = JSON.parse(JSON.stringify(cursor));
-				let endLine = cursor;
-				for (let i = cursor.line; i < lineCount; i++) {
-					if (editor.getLine(i) === multiLinePostingSection) {
-						endLine.line = i;
-						break;
-					}
-				}
-				if (startLine.line === endLine.line) {
+				const multiLinePostingSection = this.settings.multiLinePostingSection.replace("\\n", "\n");
+				const textFromCursorToEnd = editor.getRange(cursor, {line: lineCount, ch: 0});
+				console.log(textFromCursorToEnd)
+				console.log(multiLinePostingSection)
+				const match = textFromCursorToEnd.split(multiLinePostingSection);
+				if (match.length === 1) {
 					new Notice(i18n.t("noSectionFound"))
 					return;
 				}
-				const text = editor.getRange(startLine, endLine);
+				const text = match[0];
 				const imageIDs = await this.uploadFileToMisskey(text);
 				const pattern = /!\[\[.*?]]/g;
 				await this.postToMisskey(text.replace(pattern, ''),
