@@ -500,6 +500,11 @@ export default class MisskeyPlugin extends Plugin {
 				continue;
 			}
 			const data = await response.json;
+			// ノートが非公開(ダイレクトかフォロワー)の場合は引用できない。isHiddenがtrueの場合は非公開
+			if (data.isHidden) {
+				new Notice(i18n.t("noteIsHidden") + url);
+				continue;
+			}
 			// ノートには本文がなく、画像だけが添付されている場合がある。
 			let note = data.text ? data.text + "\n" : "";
 
