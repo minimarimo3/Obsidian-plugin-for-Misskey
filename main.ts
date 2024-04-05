@@ -727,5 +727,29 @@ export default class MisskeyPlugin extends Plugin {
 				new Notice(i18n.t("noteQuoted"))
 			},
 		});
+
+		this.addCommand({
+			id: "embed-all-misskey-note",
+			name: "Embed all Misskey notes",
+			editorCallback: async (editor) => {
+				if (!this.isSettingsValid()) { return; }
+
+				new Notice(i18n.t("collectingNotes"))
+				// URLを見つけるための正規表現パターン
+				const urlPattern = /(^|\s)((https?):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])(?=\s|$)/ig
+
+				for (let i = 0; i < editor.lineCount(); i++) {
+					let replaceText = editor.getLine(i);
+					const urls = replaceText.match(urlPattern);
+					if (!urls) { continue; }
+					const notes = await this.quoteFromMisskeyNote(urls.map((url) => url.trim()));
+					for (const [url, note] of notes) {
+						replaceText = replaceText.replace(url, note);
+					}
+					editor.setLine(i, replaceText);
+				}
+				new Notice(i18n.t("noteQuoted"))
+			},
+		});
 	}
 }
